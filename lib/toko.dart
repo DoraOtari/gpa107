@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/detail.dart';
 import 'package:myapp/kategori.dart';
 import 'package:myapp/produk.dart';
 import 'package:myapp/rupiah.dart';
@@ -18,17 +19,25 @@ class TokoPage extends StatelessWidget {
             child: Column(
               children: [
                 SizedBox(
-                  height: 80,
+                  height: 40,
                   child: FutureBuilder(
                     future: getKategori(),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         List<String> listKategori = snapshot.data!;
                         return ListView.builder(
+                          scrollDirection: Axis.horizontal,
                           itemCount: listKategori.length,
                           itemBuilder: (context, index) {
                             final String kategori = listKategori[index];
-                            return Container(child: Text(kategori));
+                            return Container(
+                              margin: EdgeInsets.only(right: 8,bottom: 8),
+                              padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                              decoration: BoxDecoration(
+                                color: Colors.pink,
+                                borderRadius: BorderRadius.circular(8)
+                              ),
+                              child: Text(kategori,style: TextStyle(color: Colors.white),));
                           },
                         );
                       }
@@ -48,51 +57,61 @@ class TokoPage extends StatelessWidget {
                       itemCount: listProduk.length,
                       itemBuilder: (context, index) {
                         final Produk produk = listProduk[index];
-                        return Column(
-                          children: [
-                            Expanded(
-                              child: AspectRatio(
-                                aspectRatio: 3 / 4,
-                                child: Image.network(
-                                  produk.image,
-                                  fit: BoxFit.fill,
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => DetailPage(
+                                          produk: produk,
+                                        )));
+                          },
+                          child: Column(
+                            children: [
+                              Expanded(
+                                child: AspectRatio(
+                                  aspectRatio: 3 / 4,
+                                  child: Image.network(
+                                    produk.image,
+                                    fit: BoxFit.fill,
+                                  ),
                                 ),
                               ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.only(top: 4),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 2, vertical: 4),
-                              decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.purple)),
-                              child: Text(
-                                produk.category.toUpperCase(),
-                                style: const TextStyle(color: Colors.purple),
-                              ),
-                            ),
-                            Text(
-                              produk.title,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  formatRupiah(produk.price),
-                                  style: const TextStyle(
-                                      color: Colors.orange,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold),
+                              Container(
+                                margin: const EdgeInsets.only(top: 4),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 2, vertical: 4),
+                                decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.purple)),
+                                child: Text(
+                                  produk.category.toUpperCase(),
+                                  style: const TextStyle(color: Colors.purple),
                                 ),
-                                Wrap(
-                                  children: [
-                                    Icon(Icons.person),
-                                    Text('${produk.count}')
-                                  ],
-                                )
-                              ],
-                            ),
-                          ],
+                              ),
+                              Text(
+                                produk.title,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    formatRupiah(produk.price),
+                                    style: const TextStyle(
+                                        color: Colors.orange,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Wrap(
+                                    children: [
+                                      Icon(Icons.person),
+                                      Text('${produk.count}')
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
                         );
                       }),
                 ),
