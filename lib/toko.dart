@@ -31,13 +31,13 @@ class TokoPage extends StatelessWidget {
                           itemBuilder: (context, index) {
                             final String kategori = listKategori[index];
                             return Container(
-                              margin: EdgeInsets.only(right: 8,bottom: 8),
-                              padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                              margin: const EdgeInsets.only(right: 8,bottom: 8),
+                              padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
                               decoration: BoxDecoration(
                                 color: Colors.pink,
                                 borderRadius: BorderRadius.circular(8)
                               ),
-                              child: Text(kategori,style: TextStyle(color: Colors.white),));
+                              child: Text(kategori,style: const TextStyle(color: Colors.white),));
                           },
                         );
                       }
@@ -104,7 +104,7 @@ class TokoPage extends StatelessWidget {
                                   ),
                                   Wrap(
                                     children: [
-                                      Icon(Icons.person),
+                                      const Icon(Icons.person),
                                       Text('${produk.count}')
                                     ],
                                   )

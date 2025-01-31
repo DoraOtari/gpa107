@@ -35,6 +35,19 @@ class Produk {
         category: json['category']);
   }
 
+  Map<String, Object> toJson() => {
+        'id': id,
+        'title': title,
+        'description': description,
+        'price': price,
+        'image': image,
+        'rating': {
+          'count': count,
+          'rate': rate,
+        },
+        'category': category,
+      };
+
   @override
   String toString() {
     return 'Data Produk: $title';

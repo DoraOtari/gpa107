@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/galeri.dart';
+import 'package:myapp/keranjang.dart';
 import 'package:myapp/toko.dart';
+import 'package:provider/provider.dart';
 
 //fungsi utama untuk menjalankan kode
 void main() {
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider(
+    create: (context) => ProviderKeranjang(),
+    child: const MyApp()));
 }
 
 class MyApp extends StatefulWidget {
