@@ -1,7 +1,7 @@
-ayu 86
+ayu 91
 zahra 5
-arnita 71
-sadik 10
+arnita 81
+sadik 15
 innysa 8
 rifqi 33
 bagus 15

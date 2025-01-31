@@ -17,10 +17,10 @@ class ProviderKeranjang extends ChangeNotifier {
   Future<void> loadKeranjang() async {
     final prefs = await SharedPreferences.getInstance();
     List<String> listProdukString = prefs.getStringList('listProduk') ?? [];
-      _listProduk = listProdukString
-          .map((produkString) => Produk.fromJson(jsonDecode(produkString)))
-          .toList();
-      notifyListeners();
+    _listProduk = listProdukString
+        .map((produkString) => Produk.fromJson(jsonDecode(produkString)))
+        .toList();
+    notifyListeners();
   }
 
   Future<void> _simpanKeranjang() async {
@@ -35,6 +35,12 @@ class ProviderKeranjang extends ChangeNotifier {
 
   void tambahKeranjang(Produk produk) {
     _listProduk.add(produk);
+    _simpanKeranjang();
+    notifyListeners();
+  }
+
+  void hapusKeranjang(Produk produk) {
+    _listProduk.removeAt(produk.id);
     _simpanKeranjang();
     notifyListeners();
   }
