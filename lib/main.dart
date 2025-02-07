@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/galeri.dart';
 import 'package:myapp/keranjang.dart';
+import 'package:myapp/keranjang_page.dart';
 import 'package:myapp/toko.dart';
 import 'package:provider/provider.dart';
 
 //fungsi utama untuk menjalankan kode
 void main() {
   runApp(ChangeNotifierProvider(
-    create: (context) => ProviderKeranjang(),
-    child: const MyApp()));
+      create: (context) => ProviderKeranjang(),
+      child: MaterialApp(routes: {
+        '/keranjang': (context) => const KeranjangPage(),
+      }, debugShowCheckedModeBanner: false, home: const MyApp())));
 }
 
 class MyApp extends StatefulWidget {
@@ -22,45 +25,46 @@ class _MyAppState extends State<MyApp> {
   int _halDipilih = 0;
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        backgroundColor: Colors.white,
-        bottomNavigationBar: NavigationBar(
-            selectedIndex: _halDipilih,
-            indicatorColor: Colors.brown.shade300,
-            onDestinationSelected: (value) {
-              setState(() {
-                _halDipilih = value;
-              });
-            },
-            destinations: const <Widget>[
-              NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
-              NavigationDestination(
-                  icon: Icon(Icons.picture_in_picture), label: 'Galeri'),
-              NavigationDestination(icon: Icon(Icons.store), label: 'Toko'),
-            ]),
-        appBar: AppBar(
-          actions: [
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.shopping_bag),
-            ),
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.logout_rounded),
-            ),
-          ],
-          backgroundColor: Colors.brown,
-          foregroundColor: Colors.white,
-          title: const Text('Whatsapp'),
-        ),
-        body: [
-          const HomePage(),
-          const GaleriPage(),
-          const TokoPage(),
-        ][_halDipilih],
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        actions: [
+          IconButton(
+            onPressed: () => Navigator.pushNamed(context, '/keranjang'),
+            icon: Badge(
+                label: Consumer<ProviderKeranjang>(
+                    builder: (context, value, child) =>
+                        Text('${value.jmlProduk}')),
+                child: const Icon(Icons.shopping_bag)),
+          ),
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.logout_rounded),
+          ),
+        ],
+        backgroundColor: Colors.brown,
+        foregroundColor: Colors.white,
+        title: const Text('Whatsapp'),
       ),
+      bottomNavigationBar: NavigationBar(
+          selectedIndex: _halDipilih,
+          indicatorColor: Colors.brown.shade300,
+          onDestinationSelected: (value) {
+            setState(() {
+              _halDipilih = value;
+            });
+          },
+          destinations: const <Widget>[
+            NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
+            NavigationDestination(
+                icon: Icon(Icons.picture_in_picture), label: 'Galeri'),
+            NavigationDestination(icon: Icon(Icons.store), label: 'Toko'),
+          ]),
+      body: [
+        const HomePage(),
+        const GaleriPage(),
+        const TokoPage(),
+      ][_halDipilih],
     );
   }
 }

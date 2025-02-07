@@ -40,7 +40,9 @@ class ProviderKeranjang extends ChangeNotifier {
   }
 
   void hapusKeranjang(Produk produk) {
-    _listProduk.removeAt(produk.id);
+    _listProduk.removeWhere(
+      (element) => element.id == produk.id,
+    );
     _simpanKeranjang();
     notifyListeners();
   }

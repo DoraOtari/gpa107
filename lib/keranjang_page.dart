@@ -13,60 +13,75 @@ class KeranjangPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Keranjang'),
       ),
-      body: Consumer<ProviderKeranjang>(
-        builder: (context, provKeranjang, child) => ListView.builder(
-          itemCount: provKeranjang.jmlProduk,
-          itemBuilder: (context, index) {
-            final Produk produk = provKeranjang.listProduk[index];
-            return Dismissible(
-              onDismissed: (_) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Produk berhasil dihapus dari keranjang'),
-                  ),
-                );
-                provKeranjang.hapusKeranjang(produk);
-              },
-              confirmDismiss: (_) => showDialog(
-                context: context,
-                builder: (context) => AlertDialog(
-                  title: const Text('Konfirmasi Hapus'),
-                  content: const Text(
-                      'Apakah Anda yakin ingin menghapus produk ini?'),
-                  actions: [
-                    TextButton(
-                      onPressed: () => Navigator.pop(context, false),
-                      child: const Text('Batal'),
+      body: Column(
+        children: [
+          Expanded(
+            child: Consumer<ProviderKeranjang>(
+              builder: (context, provKeranjang, child) => ListView.builder(
+                itemCount: provKeranjang.jmlProduk,
+                itemBuilder: (context, index) {
+                  final Produk produk = provKeranjang.listProduk[index];
+                  return Dismissible(
+                    onDismissed: (_) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content:
+                              Text('Produk berhasil dihapus dari keranjang'),
+                        ),
+                      );
+                      provKeranjang.hapusKeranjang(produk);
+                    },
+                    confirmDismiss: (_) => showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: const Text('Konfirmasi Hapus'),
+                        content: const Text(
+                            'Apakah Anda yakin ingin menghapus produk ini?'),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(context, false),
+                            child: const Text('Batal'),
+                          ),
+                          TextButton(
+                            onPressed: () => Navigator.pop(context, true),
+                            child: const Text('Hapus'),
+                          ),
+                        ],
+                      ),
                     ),
-                    TextButton(
-                      onPressed: () => Navigator.pop(context, true),
-                      child: const Text('Hapus'),
+                    direction: DismissDirection.endToStart,
+                    background: Container(
+                      alignment: Alignment.centerRight,
+                      color: Colors.red,
+                      child: const Icon(
+                        Icons.delete,
+                        size: 24,
+                        color: Colors.white,
+                      ),
                     ),
-                  ],
-                ),
+                    key: UniqueKey(),
+                    child: ListTile(
+                      leading: AspectRatio(
+                        aspectRatio: 1 / 1,
+                        child: Image.network(produk.image),
+                      ),
+                      title: Text(produk.title),
+                      subtitle: Text(formatRupiah(produk.price)),
+                    ),
+                  );
+                },
               ),
-              direction: DismissDirection.endToStart,
-              background: Container(
-                alignment: Alignment.centerRight,
-                color: Colors.red,
-                child: const Icon(
-                  Icons.delete,
-                  size: 24,
-                  color: Colors.white,
-                ),
-              ),
-              key: ValueKey(produk.id),
-              child: ListTile(
-                leading: AspectRatio(
-                  aspectRatio: 1 / 1,
-                  child: Image.network(produk.image),
-                ),
-                title: Text(produk.title),
-                subtitle: Text(formatRupiah(produk.price)),
-              ),
-            );
-          },
-        ),
+            ),
+          ),
+          const Text('Total Bayar'),
+          const Divider(),
+          const Row(
+            children: [Text('Total Barang'), Text('2')],
+          ),
+          const Row(
+            children: [Text('Total Bayar'), Text('2000')],
+          ),
+        ],
       ),
     );
   }
