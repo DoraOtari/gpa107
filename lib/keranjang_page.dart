@@ -13,11 +13,11 @@ class KeranjangPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Keranjang'),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: Consumer<ProviderKeranjang>(
-              builder: (context, provKeranjang, child) => ListView.builder(
+      body: Consumer<ProviderKeranjang>(
+        builder: (context, provKeranjang, child) => Column(
+          children: [
+            Expanded(
+              child: ListView.builder(
                 itemCount: provKeranjang.jmlProduk,
                 itemBuilder: (context, index) {
                   final Produk produk = provKeranjang.listProduk[index];
@@ -72,16 +72,21 @@ class KeranjangPage extends StatelessWidget {
                 },
               ),
             ),
-          ),
-          const Text('Total Bayar'),
-          const Divider(),
-          const Row(
-            children: [Text('Total Barang'), Text('2')],
-          ),
-          const Row(
-            children: [Text('Total Bayar'), Text('2000')],
-          ),
-        ],
+            const Text('Total Bayar'),
+            const Divider(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('Total Barang'),
+                Text('${provKeranjang.jmlProduk}')
+              ],
+            ),
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [Text('Total Bayar'), Text('2000')],
+            ),
+          ],
+        ),
       ),
     );
   }
