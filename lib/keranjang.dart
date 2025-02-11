@@ -9,6 +9,7 @@ class ProviderKeranjang extends ChangeNotifier {
 
   List<Produk> get listProduk => _listProduk;
   int get jmlProduk => _listProduk.length;
+  num get totalBayar => _totalBayar();
 
   ProviderKeranjang() {
     loadKeranjang();
@@ -45,5 +46,13 @@ class ProviderKeranjang extends ChangeNotifier {
     );
     _simpanKeranjang();
     notifyListeners();
+  }
+
+  num _totalBayar() {
+    num total = 0;
+    for (var produk in _listProduk) {
+      total += produk.price;
+    }
+    return total;
   }
 }

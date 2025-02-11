@@ -77,14 +77,66 @@ class KeranjangPage extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Total Barang'),
+                const Text('Total Barang'),
                 Text('${provKeranjang.jmlProduk}')
               ],
             ),
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [Text('Total Bayar'), Text('2000')],
+              children: [
+                const Text('Total Bayar'),
+                Text(formatRupiah(provKeranjang.totalBayar))
+              ],
             ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue, foregroundColor: Colors.white),
+              onPressed: () => showBottomSheet(
+                backgroundColor: Colors.grey.shade200,
+                showDragHandle: true,
+                context: context,
+                builder: (context) => Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  height: MediaQuery.of(context).size.height * 0.8,
+                  child: Column(
+                    children: [
+                      Text('Alamat Pengiriman'.toUpperCase()),
+                      TextFormField(
+                        decoration: const InputDecoration(
+                            label: Text('Nama Penerima'),
+                            border: OutlineInputBorder()),
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      TextFormField(
+                        maxLines: 3,
+                        decoration: const InputDecoration(
+                            label: Text('Alamat Pengiriman'),
+                            border: OutlineInputBorder(),
+                            floatingLabelBehavior:
+                                FloatingLabelBehavior.always),
+                      ),
+                      Container(
+                        alignment: Alignment.center,
+                        margin: const EdgeInsets.only(top: 15),
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(10),
+                        color: Colors.blue,
+                        child: const Text(
+                          'Bayar',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              child: const Text('Checkout'),
+            ),
+            const SizedBox(
+              height: 10,
+            )
           ],
         ),
       ),
