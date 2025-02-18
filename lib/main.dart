@@ -1,17 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/alamat.dart';
 import 'package:myapp/galeri.dart';
 import 'package:myapp/keranjang.dart';
 import 'package:myapp/keranjang_page.dart';
+import 'package:myapp/register.dart';
 import 'package:myapp/toko.dart';
 import 'package:provider/provider.dart';
 
 //fungsi utama untuk menjalankan kode
 void main() {
-  runApp(ChangeNotifierProvider(
-      create: (context) => ProviderKeranjang(),
+  runApp(MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => ProviderKeranjang(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => AlamatProvider(),
+        ),
+      ],
       child: MaterialApp(routes: {
         '/keranjang': (context) => const KeranjangPage(),
-      }, debugShowCheckedModeBanner: false, home: const MyApp())));
+      }, debugShowCheckedModeBanner: false, home: const RegisterPage())));
 }
 
 class MyApp extends StatefulWidget {
