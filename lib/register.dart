@@ -16,32 +16,49 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Register'),
+        title: const Text('Register'),
       ),
-      body: Column(children: [
-        const Text(
-          'Register Akun',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-        ),
-        const Text('Registrasi akun baru kamu'),
-        TextField(
-          controller: namaCon,
-          decoration: const InputDecoration(
-              border: OutlineInputBorder(), label: Text('Nama Lengkap')),
-        ),
-        TextField(
-          controller: emailCon,
-          decoration: const InputDecoration(
-              border: OutlineInputBorder(), label: Text('Nama Lengkap')),
-        ),
-        TextField(
-          controller: passwordCon,
-          obscureText: true,
-          decoration: const InputDecoration(
-              border: OutlineInputBorder(), label: Text('Nama Lengkap')),
-        ),
-        ElevatedButton(onPressed: () {}, child: Text('Submit'))
-      ]),
+      body: Container(
+        padding: EdgeInsets.symmetric(horizontal: 10),
+        height: MediaQuery.of(context).size.height * 0.6,
+        child:
+            Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+          const Column(
+            children: [
+              Text(
+                'Register Akun',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              Text('Registrasi akun baru kamu'),
+            ],
+          ),
+          TextField(
+            controller: namaCon,
+            decoration: const InputDecoration(
+                border: OutlineInputBorder(), label: Text('Nama Lengkap')),
+          ),
+          TextField(
+            controller: emailCon,
+            decoration: const InputDecoration(
+                border: OutlineInputBorder(), label: Text('Email')),
+          ),
+          TextField(
+            controller: passwordCon,
+            obscureText: true,
+            decoration: const InputDecoration(
+                border: OutlineInputBorder(), label: Text('Password')),
+          ),
+          SizedBox(
+            width: double.infinity,
+            child: FilledButton(onPressed: () {}, child: const Text('Submit')),
+          ),
+          SizedBox(
+            width: double.infinity,
+            child: FilledButton.tonal(
+                onPressed: () {}, child: const Text('Login')),
+          ),
+        ]),
+      ),
     );
   }
 }
