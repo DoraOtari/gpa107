@@ -4,11 +4,13 @@ import 'package:myapp/galeri.dart';
 import 'package:myapp/keranjang.dart';
 import 'package:myapp/keranjang_page.dart';
 import 'package:myapp/login.dart';
+import 'package:myapp/register.dart';
 import 'package:myapp/toko.dart';
 import 'package:provider/provider.dart';
 
 //fungsi utama untuk menjalankan kode
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MultiProvider(
       providers: [
         ChangeNotifierProvider(
@@ -20,6 +22,8 @@ void main() {
       ],
       child: MaterialApp(routes: {
         '/keranjang': (context) => const KeranjangPage(),
+        '/register': (context) => const RegisterPage(),
+        '/login': (context) => const LoginPage(),
       }, debugShowCheckedModeBanner: false, home: const LoginPage())));
 }
 

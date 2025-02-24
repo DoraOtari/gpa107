@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -12,6 +14,20 @@ class _RegisterPageState extends State<RegisterPage> {
   final emailCon = TextEditingController();
   final passwordCon = TextEditingController();
 
+  Future<void> _registerAkun(context, email, password) async {
+    late String pesan;
+    try {
+      await Firebase.initializeApp();
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: emailCon.text, password: passwordCon.text);
+      Navigator.pushReplacementNamed(context, '/login');
+      pesan = 'Berhasil Mendaftar akun baru!';
+    } catch (e) {
+      pesan = 'Gagal Mendaftar akun baru! ${e.toString()}';
+    }
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(pesan)));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,8 +35,8 @@ class _RegisterPageState extends State<RegisterPage> {
         title: const Text('Register'),
       ),
       body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 10),
-        height: MediaQuery.of(context).size.height * 0.6,
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        height: MediaQuery.of(context).size.height * 0.7,
         child:
             Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
           const Column(
@@ -31,11 +47,6 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
               Text('Registrasi akun baru kamu'),
             ],
-          ),
-          TextField(
-            controller: namaCon,
-            decoration: const InputDecoration(
-                border: OutlineInputBorder(), label: Text('Nama Lengkap')),
           ),
           TextField(
             controller: emailCon,
@@ -50,12 +61,17 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
           SizedBox(
             width: double.infinity,
-            child: FilledButton(onPressed: () {}, child: const Text('Submit')),
+            child: FilledButton(
+                onPressed: () =>
+                    _registerAkun(context, emailCon.text, passwordCon.text),
+                child: const Text('Submit')),
           ),
           SizedBox(
             width: double.infinity,
             child: FilledButton.tonal(
-                onPressed: () {}, child: const Text('Login')),
+                onPressed: () =>
+                    Navigator.pushReplacementNamed(context, '/login'),
+                child: const Text('Login')),
           ),
         ]),
       ),

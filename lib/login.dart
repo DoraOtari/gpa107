@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -10,6 +11,18 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final emailCon = TextEditingController();
   final passwordCon = TextEditingController();
+  Future<void> _register(email, password) async {
+    try {
+      await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password);
+      Navigator.pushReplacementNamed(context, '/login');
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('Berhasil Registrasi')));
+    } catch (e) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Gagal Registrasi $e')));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +31,7 @@ class _LoginPageState extends State<LoginPage> {
         title: const Text('Login'),
       ),
       body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 10),
         height: MediaQuery.of(context).size.height * 0.5,
         child:
             Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
@@ -44,7 +57,9 @@ class _LoginPageState extends State<LoginPage> {
           ),
           SizedBox(
             width: double.infinity,
-            child: FilledButton(onPressed: () {}, child: const Text('Submit')),
+            child: FilledButton(
+                onPressed: () => _register(emailCon.text, passwordCon.text),
+                child: const Text('Submit')),
           ),
           SizedBox(
             width: double.infinity,
